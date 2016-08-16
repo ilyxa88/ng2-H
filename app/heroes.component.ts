@@ -13,6 +13,7 @@ import { HeroService } from './hero.service';
          [class.selected]="hero === selectedHero"
          (click)="onSelect(hero)">
           <span class="badge">{{hero.id}}</span> {{hero.name}}
+          <button class="delete-button" (click)="deleteHero(hero, $event)">Delete</button>
         </li>
       </ul>
       <div *ngIf="selectedHero">
@@ -21,6 +22,11 @@ import { HeroService } from './hero.service';
         </h2>
         <button (click)="gotoDetail()">View Details</button>
       </div>
+      <div class="error" *ngIf="error">{{error}}</div>
+        <button (click)="addHero()">Add New Hero</button>
+        <div *ngIf="addingHero">
+          <my-hero-detail (close)="close($event)"></my-hero-detail>
+       </div>
     `,
   styles: [`
     .selected {
@@ -75,6 +81,8 @@ import { HeroService } from './hero.service';
 export class HeroesComponent{
   public heroes : Hero[];
   public selectedHero: Hero;
+  public addingHero = false;
+  public error: any;
   constructor(private _router:Router, private _heroService: HeroService){}
   onSelect (hero: Hero){
     this.selectedHero = hero;
@@ -91,6 +99,26 @@ export class HeroesComponent{
     let link = ['/detail', this.selectedHero.id];
     this._router.navigate(link);
   }
+  addHero() {
+    this.addingHero = true;
+    this.selectedHero = null;
+  }
+
+  close(savedHero: Hero) {
+    this.addingHero = false;
+    if (savedHero) { this.getHeroes(); }
+  }
+  deleteHero(hero: Hero, event: any) {
+    event.stopPropagation();
+    this._heroService
+      .delete(hero)
+      .then(res => {
+        this.heroes = this.heroes.filter(h => h !== hero);
+        if (this.selectedHero === hero) { this.selectedHero = null; }
+      })
+      .catch(error => this.error = error);
+  }
+
 }
 
 
