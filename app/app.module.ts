@@ -9,11 +9,14 @@ import { InMemoryDataService }               from './in-memory-data.service';
 import { AppComponent }   from './app.component';
 import { routing }        from './app.routing';
 
-import { HeroDetailComponent }  from './hero-detail.component';
 import { HeroService }          from './hero.service';
+import { HeroFormService }      from './hero-form.service';
+
+import { HeroDetailComponent }  from './hero-detail.component';
 import { HeroesComponent }      from './heroes.component';
 import { DashboardComponent }   from './dashboard.component';
 import { HeroSearchComponent } from './hero-search.component';
+import { HeroFormComponent } from './hero-form.component';
 
 @NgModule({
   imports: [
@@ -27,10 +30,12 @@ import { HeroSearchComponent } from './hero-search.component';
     HeroesComponent,
     DashboardComponent,
     HeroDetailComponent,
-    HeroSearchComponent
+    HeroSearchComponent,
+    HeroFormComponent
   ],
   providers: [
     HeroService,
+    HeroFormService,
     { provide: XHRBackend, useClass: InMemoryBackendService }, // in-mem server
     { provide: SEED_DATA,  useClass: InMemoryDataService }     // in-mem server data
   ],
