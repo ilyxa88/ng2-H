@@ -24,6 +24,8 @@ export class InMemoryDataService {
       {id: 19, name: 'Magma'},
       {id: 20, name: 'Tornado'}
     ];
-    return {users, heroes};
+    let powers = ['Really Smart', 'Super Flexible',
+      'Super Hot', 'Weather Changer'];
+    return {users, heroes, powers};
   }
 }
