@@ -9,8 +9,7 @@ import { HeroFormService } from './hero-form.service';
   templateUrl: 'hero-form.component.html'
 })
 export class HeroFormComponent {
-  powers = ['Really Smart', 'Super Flexible',
-    'Super Hot', 'Weather Changer'];
+  powers : string[] = [];
   model = new User(18, 'Dr IQ', this.powers[0], 'Chuck Overstreet');
   submitted = false;
   //public name: string = 'ilya';
@@ -29,6 +28,9 @@ export class HeroFormComponent {
   get diagnostic() { return JSON.stringify(this.model); }
 
   ngOnInit(){
-
+    this._heroFormService.getPowerList().then((response)=>{
+      console.log(response);
+      this.powers = response;
+    })
   }
 }

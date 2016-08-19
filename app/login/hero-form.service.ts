@@ -8,7 +8,8 @@ import { User } from './hero.user';
 
 @Injectable()
 export class HeroFormService {
-  private _heroesUrl = 'app/users';  // URL to web api
+  private _usersUrl = 'app/users';
+  private _powerUrl = 'app/powers';
   constructor(private _http: Http){}
 
   loginUser(name: string){
@@ -17,12 +18,17 @@ export class HeroFormService {
   }
 
   getUsers() {
-    return this._http.get(this._heroesUrl)
+    return this._http.get(this._usersUrl)
       .toPromise()
       .then(response => response.json().data as User[])
       .catch(this.handleError);
   }
-
+  getPowerList(){
+    return this._http.get(this._powerUrl)
+      .toPromise()
+      .then(response => response.json().data as any)
+      .catch(this.handleError)
+  }
   getUser(id: number) {
     return this.getUsers()
       .then(users => users.find(user => user.id === id));
